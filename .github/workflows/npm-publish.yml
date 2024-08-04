@@ -1,8 +1,10 @@
 name: Publish Package to npmjs
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   build:
@@ -20,6 +22,6 @@ jobs:
         with:
           version: 9.0.4
       - run: pnpm install --frozen-lockfile
-      - run: pnpm publish --no-git-checks --provenance --access public
+      - run: pnpm publish  --access public --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
