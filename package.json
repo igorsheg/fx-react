@@ -4,9 +4,9 @@
   "description": "An FX-inspired dependency injection library for React",
   "repository": {
     "type": "git",
-    "url": "git@github.com:igorsheg/fx-react.git"
+    "url": "https://github.com/igorsheg/fx-react.git"
   },
-  "homepage": "https://github.com/igorsheg/fx-react",
+  "homepage": "https://github.com/igorsheg/fx-react#readme",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -55,5 +55,6 @@
   },
   "dependencies": {
     "tslib": "^2.6.3"
-  }
+  },
+  "packageManager": "pnpm@9.0.4"
 }
