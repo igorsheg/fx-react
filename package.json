@@ -1,0 +1,59 @@
+{
+  "name": "fx-react",
+  "version": "0.1.0",
+  "description": "An FX-inspired dependency injection library for React",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:igorsheg/fx-react.git"
+  },
+  "homepage": "https://github.com/igorsheg/fx-react",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "dependency injection",
+    "fx",
+    "typescript"
+  ],
+  "author": "Igor Shegolev",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@types/react": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-vitest-globals": "^1.5.0",
+    "prettier": "^3.3.3",
+    "react": "^18.0.0",
+    "rollup": "^2.75.0",
+    "rollup-plugin-dts": "^4.2.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.6.3"
+  }
+}
