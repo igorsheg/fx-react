@@ -25,6 +25,8 @@ import { weatherWidgetModule } from './modules/dashboard/WeatherWidget';
 const FXModules = [
   configModule,
   loggerModule,
+  weatherWidgetModule,
+  queryClientModule,
   analyticsModule,
   baseNotificationsModule,
   themingModule,
@@ -33,12 +35,11 @@ const FXModules = [
   enhancedNotificationsModule,
   performanceModule,
   errorBoundaryModule,
-  queryClientModule,
   weatherApiModule,
   cryptoApiModule,
   dashboardModule,
   aiRecommendationModule,
-  userPreferencesModule, weatherWidgetModule,
+  userPreferencesModule,
   smartDashboardModule,
 ];
 

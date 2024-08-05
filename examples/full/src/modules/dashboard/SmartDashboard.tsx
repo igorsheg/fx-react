@@ -11,6 +11,7 @@ import { errorBoundaryModule } from '../ErrorBoundary';
 import { userPreferencesModule } from './userPreferenceModule';
 import { AnimatePresence, motion } from 'framer-motion';
 import { weatherWidgetModule } from './WeatherWidget';
+import { CogIcon, PlusIcon } from 'lucide-react';
 
 const FXModules = [
   loggerModule,
@@ -104,55 +105,80 @@ function SmartDashboard({
     savePreferences({ widgets: widgets.filter(w => w !== widget) });
   };
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <motion.h1
-          className="text-4xl font-bold text-gray-900 dark:text-white mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Smart Dashboard
-        </motion.h1>
-
-        <div className="mb-8">
-          <button
-            onClick={optimizeDashboard}
-            disabled={isOptimizing}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-150 ease-in-out"
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-12">
+        <div className="sm:flex sm:items-center sm:justify-between mb-12">
+          <motion.h1
+            className="text-4xl font-light text-gray-900 dark:text-white"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            {isOptimizing ? 'Optimizing...' : 'Optimize Dashboard'}
-          </button>
+            Smart Dashboard
+          </motion.h1>
+          <div className="mt-4 sm:mt-0">
+            <button
+              onClick={optimizeDashboard}
+              disabled={isOptimizing}
+              className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+            >
+              <CogIcon className={`-ml-1 mr-2 h-5 w-5 ${isOptimizing ? 'animate-spin' : ''}`} />
+              {isOptimizing ? 'Optimizing...' : 'Optimize Dashboard'}
+            </button>
+          </div>
         </div>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence>
             {widgets.map((widget) => (
               <motion.div
                 key={widget}
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                className="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-3xl"
               >
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">{widget.charAt(0).toUpperCase() + widget.slice(1)}</h2>
-                {widget === 'weather' && <WeatherWidget />}
-                {widget === 'crypto' && <h1>im crypto</h1>}
-                {widget === 'stocks' && <h1>User profile</h1>}
-                <button
-                  onClick={() => removeWidget(widget)}
-                  className="mt-4 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition duration-150 ease-in-out"
-                >
-                  Remove
-                </button>
+                <div className="px-6 py-8">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                    {widget.charAt(0).toUpperCase() + widget.slice(1)}
+                  </h3>
+                  <div className="mt-4">
+                    {widget === 'weather' && <WeatherWidget />}
+                    {widget === 'crypto' && <div className="text-gray-700 dark:text-gray-300">Crypto Widget</div>}
+                    {widget === 'stocks' && <div className="text-gray-700 dark:text-gray-300">Stock Widget</div>}
+                  </div>
+                </div>
+                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700">
+                  <button
+                    onClick={() => removeWidget(widget)}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-red-600 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out"
+                  >
+                    Remove
+                  </button>
+                </div>
               </motion.div>
             ))}
           </AnimatePresence>
+          <motion.div
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden shadow-inner rounded-3xl border-2 border-dashed border-gray-300 dark:border-gray-600"
+          >
+            <div className="px-6 py-8 flex items-center justify-center h-full">
+              <button
+                className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
+              >
+                <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                Add Widget
+              </button>
+            </div>
+          </motion.div>
         </div>
-
-        <NotificationsDisplay />
+        <div className="mt-12">
+          <NotificationsDisplay />
+        </div>
       </div>
     </div>
   );
