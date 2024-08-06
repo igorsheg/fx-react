@@ -13,6 +13,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { weatherWidgetModule } from './WeatherWidget';
 import { CogIcon, PlusIcon } from 'lucide-react';
 
+import {
+  Card, CardContent, CardFooter, CardHeader, CardTitle,
+} from '@/components/ui/card';
+
+import {
+  Button
+} from '@/components/ui/button';
+
 const FXModules = [
   loggerModule,
   cryptoApiModule,
@@ -117,14 +125,14 @@ function SmartDashboard({
             Smart Dashboard
           </motion.h1>
           <div className="mt-4 sm:mt-0">
-            <button
+            <Button
               onClick={optimizeDashboard}
               disabled={isOptimizing}
-              className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+              className="inline-flex items-center px-6 py-3 rounded-full shadow-sm bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
             >
               <CogIcon className={`-ml-1 mr-2 h-5 w-5 ${isOptimizing ? 'animate-spin' : ''}`} />
               {isOptimizing ? 'Optimizing...' : 'Optimize Dashboard'}
-            </button>
+            </Button>
           </div>
         </div>
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -137,26 +145,25 @@ function SmartDashboard({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-3xl"
               >
-                <div className="px-6 py-8">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                    {widget.charAt(0).toUpperCase() + widget.slice(1)}
-                  </h3>
-                  <div className="mt-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{widget.charAt(0).toUpperCase() + widget.slice(1)}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
                     {widget === 'weather' && <WeatherWidget />}
-                    {widget === 'crypto' && <div className="text-gray-700 dark:text-gray-300">Crypto Widget</div>}
-                    {widget === 'stocks' && <div className="text-gray-700 dark:text-gray-300">Stock Widget</div>}
-                  </div>
-                </div>
-                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700">
-                  <button
-                    onClick={() => removeWidget(widget)}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-red-600 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out"
-                  >
-                    Remove
-                  </button>
-                </div>
+                    {widget === 'crypto' && <div>Crypto Widget</div>}
+                    {widget === 'stocks' && <div>Stock Widget</div>}
+                  </CardContent>
+                  <CardFooter>
+                    <Button
+                      variant="destructive"
+                      onClick={() => removeWidget(widget)}
+                    >
+                      Remove
+                    </Button>
+                  </CardFooter>
+                </Card>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -164,16 +171,15 @@ function SmartDashboard({
             layout
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden shadow-inner rounded-3xl border-2 border-dashed border-gray-300 dark:border-gray-600"
           >
-            <div className="px-6 py-8 flex items-center justify-center h-full">
-              <button
-                className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out"
-              >
-                <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                Add Widget
-              </button>
-            </div>
+            <Card>
+              <CardContent className="flex items-center justify-center h-full">
+                <Button className="inline-flex items-center">
+                  <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                  Add Widget
+                </Button>
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
         <div className="mt-12">

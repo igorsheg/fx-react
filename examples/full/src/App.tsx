@@ -43,7 +43,7 @@ const FXModules = [
   smartDashboardModule,
 ];
 
-const { FXProvider, useFX } = createFXContext<typeof FXModules>();
+const { FXProvider, useFX, useFXSelector } = createFXContext<typeof FXModules>();
 
 function App() {
   const fxConfig = createFXConfig(FXModules)
@@ -59,8 +59,8 @@ function App() {
 }
 
 function AppContent() {
-  const deps = useFX();
-  const { reactQuery, logger, enhancedNotifications: { Notifications }, smartDashboard: { Component: SmartDashboard } } = deps;
+  const { Component: SmartDashboard } = useFXSelector("smartDashboard");
+  const { reactQuery, logger, enhancedNotifications: { Notifications }, } = useFX();
   const { QueryClientProvider } = reactQuery.queryClient;
 
   const { NotificationsDisplay, addNotification } = Notifications();

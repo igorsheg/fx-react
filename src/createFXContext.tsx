@@ -1,5 +1,13 @@
 import type { ComponentType, ReactNode } from 'react';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 
 import { DependencyNotInjectedError } from './errors';
 import type {
@@ -15,34 +23,33 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
       ExtractModuleProvides<Extract<T[number], { name: K }>>
     >;
   };
-
   const FXContext = createContext<ResolvedDeps | null>(null);
 
-  const FXProvider = ({
-    config,
-    FallbackComponent,
-    children,
-  }: {
-    config: FXConfig<T>;
-    FallbackComponent?: ComponentType;
-    children: ReactNode;
-  }) => {
-    const [resolvedDependencies, setResolvedDependencies] =
-      useState<ResolvedDeps | null>(null);
-    const [error, setError] = useState<Error | null>(null);
-    const [isInitialized, setIsInitialized] = useState(false);
+  const FXProvider = React.memo(
+    ({
+      config,
+      FallbackComponent,
+      children,
+    }: {
+      config: FXConfig<T>;
+      FallbackComponent?: ComponentType;
+      children: ReactNode;
+    }) => {
+      const renderCount = useRef(0);
+      renderCount.current += 1;
 
-    useEffect(() => {
-      const initialize = async () => {
+      const [resolvedDependencies, setResolvedDependencies] =
+        useState<ResolvedDeps | null>(null);
+      const [error, setError] = useState<Error | null>(null);
+      const [isInitialized, setIsInitialized] = useState(false);
+
+      const initialize = useCallback(async () => {
         try {
           const resolved = {} as ResolvedDeps;
-
           for (const [moduleName, module] of Object.entries(config.modules) as [
             keyof ResolvedDeps,
             FXModuleDefinition<any, any>,
           ][]) {
-            console.log(`Initializing module: ${moduleName}`);
-
             const moduleDeps = {} as ResolvedDeps;
             for (const dep of module.dependencies) {
               if (!(dep.name in resolved)) {
@@ -51,7 +58,6 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
               moduleDeps[dep.name as keyof ResolvedDeps] =
                 resolved[dep.name as keyof ResolvedDeps];
             }
-
             const providedDeps = {} as ResolvedDependencies<
               ExtractModuleProvides<typeof module>
             >;
@@ -62,11 +68,22 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
               providedDeps[key] = await provider(moduleDeps);
             }
             (resolved as any)[moduleName] = providedDeps;
+
+            if (module.decorates) {
+              for (const decorator of module.decorates) {
+                await decorator({ ...moduleDeps, ...providedDeps });
+              }
+            }
+
+            if (module.invokes) {
+              for (const invoke of module.invokes) {
+                await invoke({ ...moduleDeps, ...providedDeps });
+              }
+            }
           }
 
           setResolvedDependencies(resolved);
           setIsInitialized(true);
-
           for (const startHook of config.onStart ?? []) {
             await startHook();
           }
@@ -75,42 +92,57 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
             err instanceof Error ? err : new Error('Failed to initialize FX'),
           );
         }
-      };
+      }, [config]);
 
-      void initialize();
-
-      return () => {
-        const shutdown = async () => {
-          for (const stopHook of (config.onStop ?? []).reverse()) {
-            await stopHook();
-          }
+      useEffect(() => {
+        void initialize();
+        return () => {
+          const shutdown = async () => {
+            for (const stopHook of (config.onStop ?? []).reverse()) {
+              await stopHook();
+            }
+          };
+          void shutdown();
         };
-        void shutdown();
-      };
-    }, [config]);
+      }, [initialize, config.onStop]);
 
-    if (error) {
-      return <div>Error: {error.message} </div>;
-    }
+      const memoizedValue = useMemo(
+        () => resolvedDependencies,
+        [resolvedDependencies],
+      );
 
-    if (!isInitialized) {
-      return FallbackComponent ? <FallbackComponent /> : null;
-    }
+      if (error) {
+        return <div>Error: {error.message} </div>;
+      }
+      if (!isInitialized) {
+        return FallbackComponent ? <FallbackComponent /> : null;
+      }
+      return (
+        <FXContext.Provider value={memoizedValue}>
+          {children}
+        </FXContext.Provider>
+      );
+    },
+  );
 
-    return (
-      <FXContext.Provider value={resolvedDependencies}>
-        {children}
-      </FXContext.Provider>
-    );
-  };
+  FXProvider.displayName = 'FXProvider';
 
   function useFX(): ResolvedDeps {
     const context = useContext(FXContext);
     if (!context) {
+      console.error('useFX called outside of FXProvider');
       throw new Error('useFX must be used within an FXProvider');
     }
     return context;
   }
 
-  return { FXProvider, useFX };
+  function useFXSelector<K extends keyof ResolvedDeps>(
+    depName: K,
+  ): ResolvedDeps[K] {
+    const context = useFX();
+    return context[depName];
+  }
+
+  return { FXProvider, useFX, useFXSelector };
 }
+
