@@ -29,10 +29,9 @@
     "dist"
   ],
   "scripts": {
-    "compile": "rm -rf dist && pnpm run '/^compile:.*/'",
+    "build": "rm -rf dist && pnpm run '/^compile:.*/'",
     "compile:esm": "tsc -p tsconfig.esm.json",
     "compile:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
-    "build": "rollup -c",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepublishOnly": "npm run build"
   },
