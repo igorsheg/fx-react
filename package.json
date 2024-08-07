@@ -1,6 +1,6 @@
 {
   "name": "fx-react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An FX-inspired dependency injection library for React",
   "repository": {
     "type": "git",
