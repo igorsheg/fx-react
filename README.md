@@ -96,7 +96,7 @@ import { createFXConfig, createFXContext } from 'fx-react';
 import { configModule, loggerModule, apiModule } from './modules';
 
 const FXModules = [configModule, loggerModule, apiModule];
-const { FXProvider, useFX } = createFXContext<typeof FXModules>();
+const { FXProvider, useFX } = createFXContext<typeof FXModules>(FXModules);
 
 function App() {
   const fxConfig = createFXConfig(FXModules).withHooks({
