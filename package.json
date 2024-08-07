@@ -1,20 +1,37 @@
 {
   "name": "fx-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An FX-inspired dependency injection library for React",
   "repository": {
     "type": "git",
     "url": "https://github.com/igorsheg/fx-react.git"
   },
   "homepage": "https://github.com/igorsheg/fx-react#readme",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
-  "engines": {
-    "node": ">=18"
+  "source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   },
+  "sideEffects": false,
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
+    "compile": "rm -rf dist && pnpm run '/^compile:.*/'",
+    "compile:esm": "tsc -p tsconfig.esm.json",
+    "compile:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
     "build": "rollup -c",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepublishOnly": "npm run build"
@@ -27,34 +44,35 @@
   ],
   "author": "Igor Shegolev",
   "license": "MIT",
+  "prettier": {
+    "singleQuote": true
+  },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0"
+    "react": ">=18.0.0",
+    "scheduler": ">=0.19.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^8.3.2",
-    "@types/react": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.57.0",
+    "@types/node": "^20.12.10",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@types/scheduler": "^0.23.0",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-vitest-globals": "^1.5.0",
     "prettier": "^3.3.3",
-    "react": "^18.0.0",
-    "rollup": "^2.75.0",
-    "rollup-plugin-dts": "^4.2.2",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.2.0"
-  },
-  "dependencies": {
-    "tslib": "^2.6.3"
   },
   "packageManager": "pnpm@9.0.4"
 }

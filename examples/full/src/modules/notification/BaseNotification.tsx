@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect } from 'react';
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { loggerModule } from '../logger';
 import { configModule } from '../config';
 

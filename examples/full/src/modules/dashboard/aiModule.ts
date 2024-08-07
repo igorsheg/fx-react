@@ -1,4 +1,4 @@
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { configModule } from "../config";
 import { loggerModule } from "../logger";
 import { performanceModule } from "../performance";
@@ -18,7 +18,7 @@ export const aiRecommendationModule = createFXModule({
             User Data: ${JSON.stringify(userData)}
             Current Dashboard State: ${JSON.stringify(dashboardState)}
             
-            **YOU MOST Provide your recommendation in the following JSON format**:
+            **YOU MOST PROVIDE YOUR RECOMMENDATION IN THE FOLLOWING JSON FORMAT**:
             {
               "type": "add_widget" | "remove_widget" | "reorder_widgets",
               "widget": "string" (name of the widget to add or remove, if applicable),
@@ -36,7 +36,7 @@ export const aiRecommendationModule = createFXModule({
               model: "gpt-4o",
               messages: [{ role: "user", content: prompt }],
               temperature: 0,
-              max_tokens: 150,
+              max_tokens: 512,
             }),
           });
 
@@ -57,4 +57,7 @@ export const aiRecommendationModule = createFXModule({
       });
     },
   },
+  invokes: [
+    () => console.log("Hey")
+  ]
 });

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { QueryClient, QueryClientProvider as ReactQueryQueryClientProvider, useQuery } from 'react-query';
 
 export const queryClientModule = createFXModule({

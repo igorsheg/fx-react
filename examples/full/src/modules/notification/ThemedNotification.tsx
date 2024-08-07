@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from 'react';
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { baseNotificationsModule } from './BaseNotification';
 import { motion, AnimatePresence } from 'framer-motion';
 

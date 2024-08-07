@@ -1,4 +1,4 @@
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { configModule } from "./config";
 
 export const loggerModule = createFXModule({
