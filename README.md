@@ -23,7 +23,7 @@ Inspired by https://uber-go.github.io/fx.
 ## Installation
 
 ```bash
-npm install react-fx
+npm install fx-react
 ```
 
 ## Key Concepts
@@ -41,7 +41,7 @@ Let's create a simple application using React FX with a logger, config, and API 
 
 ```typescript
 // configModule.ts
-import { createFXModule } from 'react-fx';
+import { createFXModule } from 'fx-react';
 
 export const configModule = createFXModule({
   name: 'config',
@@ -53,7 +53,7 @@ export const configModule = createFXModule({
 });
 
 // loggerModule.ts
-import { createFXModule } from 'react-fx';
+import { createFXModule } from 'fx-react';
 
 export const loggerModule = createFXModule({
   name: 'logger',
@@ -70,7 +70,7 @@ export const loggerModule = createFXModule({
 });
 
 // apiModule.ts
-import { createFXModule } from 'react-fx';
+import { createFXModule } from 'fx-react';
 
 export const apiModule = createFXModule({
   name: 'api',
@@ -92,7 +92,7 @@ export const apiModule = createFXModule({
 ```tsx
 // App.tsx
 import React from 'react';
-import { createFXConfig, createFXContext } from 'react-fx';
+import { createFXConfig, createFXContext } from 'fx-reac';
 import { configModule, loggerModule, apiModule } from './modules';
 
 const FXModules = [configModule, loggerModule, apiModule];
