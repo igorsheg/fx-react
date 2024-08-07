@@ -1,13 +1,19 @@
 import type { ComponentType, ReactNode } from 'react';
-import React, {
-  createContext,
-  useContext,
+import {
   useEffect,
   useState,
   useRef,
   useMemo,
   useCallback,
+  memo
 } from 'react';
+
+import {
+  createContext,
+  useContext,
+  useContextSelector,
+  useContextUpdate,
+} from './context';
 
 import { DependencyNotInjectedError } from './errors';
 import type {
@@ -23,9 +29,10 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
       ExtractModuleProvides<Extract<T[number], { name: K }>>
     >;
   };
+
   const FXContext = createContext<ResolvedDeps | null>(null);
 
-  const FXProvider = React.memo(
+  const FXProvider = memo(
     ({
       config,
       FallbackComponent,
@@ -106,10 +113,17 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
         };
       }, [initialize, config.onStop]);
 
-      const memoizedValue = useMemo(
-        () => resolvedDependencies,
-        [resolvedDependencies],
-      );
+      const contextUpdate = useContextUpdate(FXContext);
+
+      const memoizedValue = useMemo(() => {
+        return resolvedDependencies;
+      }, [resolvedDependencies]);
+
+      useEffect(() => {
+        if (memoizedValue) {
+          contextUpdate(() => { }, { suspense: false });
+        }
+      }, [memoizedValue, contextUpdate]);
 
       if (error) {
         return <div>Error: {error.message} </div>;
@@ -139,10 +153,14 @@ export function createFXContext<T extends FXModuleDefinition<any, any>[]>() {
   function useFXSelector<K extends keyof ResolvedDeps>(
     depName: K,
   ): ResolvedDeps[K] {
-    const context = useFX();
-    return context[depName];
+    return useContextSelector(FXContext, (context) => {
+      if (!context) {
+        console.error('useFXSelector called outside of FXProvider');
+        throw new Error('useFXSelector must be used within an FXProvider');
+      }
+      return context[depName];
+    });
   }
 
   return { FXProvider, useFX, useFXSelector };
 }
-

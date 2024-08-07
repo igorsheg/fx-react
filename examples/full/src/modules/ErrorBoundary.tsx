@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { ErrorBoundary } from 'react-error-boundary';
 
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => (

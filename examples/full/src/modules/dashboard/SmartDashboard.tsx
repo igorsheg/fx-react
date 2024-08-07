@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createFXModule, MergeFXDeps } from "react-fx";
+import { createFXModule, MergeFXDeps } from "fx-react";
 import { loggerModule } from '../logger';
 import { cryptoApiModule } from '../cryptoApi';
 import { weatherApiModule } from '../weatherApi';
@@ -20,6 +20,7 @@ import {
 import {
   Button
 } from '@/components/ui/button';
+import CryptoList from './CryptoList';
 
 const FXModules = [
   loggerModule,
@@ -152,7 +153,7 @@ function SmartDashboard({
                   </CardHeader>
                   <CardContent>
                     {widget === 'weather' && <WeatherWidget />}
-                    {widget === 'crypto' && <div>Crypto Widget</div>}
+                    {widget === 'crypto' && <CryptoList />}
                     {widget === 'stocks' && <div>Stock Widget</div>}
                   </CardContent>
                   <CardFooter>

@@ -1,9 +1,18 @@
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { configModule } from "./config";
 import { loggerModule } from "./logger";
 import { performanceModule } from "./performance";
 import { analyticsModule } from "./bi";
 import { queryClientModule } from "./queryClient";
+
+
+
+type Crypto = {
+  id: string;
+  symbol: string;
+  name: string;
+  price: number;
+};
 
 export const cryptoApiModule = createFXModule(
   {
@@ -55,7 +64,7 @@ export const cryptoApiModule = createFXModule(
         };
 
         const useTopCryptosQuery = (limit = 10) => {
-          return useQuery(['topCryptos', limit], () => fetchTopCryptos(limit), {
+          return useQuery<Crypto[]>(['topCryptos', limit], () => fetchTopCryptos(limit), {
             onError: (error: unknown) => {
               logger.error(`Failed to fetch top cryptocurrencies: ${error}`);
             },

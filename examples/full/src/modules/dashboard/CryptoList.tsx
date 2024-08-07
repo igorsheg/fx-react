@@ -1,18 +1,16 @@
+import { useFXSelector } from '@/App';
 import { motion } from 'framer-motion';
-import React from 'react';
 
-type Crypto = {
-  id: string;
-  symbol: string;
-  name: string;
-  price: number;
-};
 
-type CryptoListProps = {
-  cryptos: Crypto[];
-};
+const CryptoList = () => {
 
-const CryptoList: React.FC<CryptoListProps> = ({ cryptos }) => {
+  const { api } = useFXSelector("crypto")
+  const { data: cryptos, isLoading } = api.useTopCryptosQuery()
+
+  if (isLoading) {
+    return null
+  }
+
   return (
     <motion.div
       className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
@@ -26,7 +24,7 @@ const CryptoList: React.FC<CryptoListProps> = ({ cryptos }) => {
         </h3>
       </div>
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-        {cryptos.map((crypto) => (
+        {cryptos?.map((crypto) => (
           <li key={crypto.id}>
             <div className="px-4 py-4 sm:px-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out">
               <div className="flex items-center justify-between">

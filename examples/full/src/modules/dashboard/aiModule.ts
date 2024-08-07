@@ -1,4 +1,4 @@
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { configModule } from "../config";
 import { loggerModule } from "../logger";
 import { performanceModule } from "../performance";

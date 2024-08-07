@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { Suspense, useState, useEffect } from 'react';
-import { createFXModule, MergeFXDeps } from "react-fx";
+import { createFXModule, MergeFXDeps } from "fx-react";
 import { motion } from 'framer-motion';
 import { loggerModule } from '../logger';
 import { weatherApiModule } from '../weatherApi';

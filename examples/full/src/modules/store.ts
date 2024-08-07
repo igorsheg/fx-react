@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { createFXModule } from 'react-fx';
+import { createFXModule } from 'fx-react';
 
 type Listener = () => void;
 type Selector<T, U> = (state: T) => U;

@@ -1,4 +1,4 @@
-import { createFXModule } from "react-fx";
+import { createFXModule } from "fx-react";
 import { motion } from "framer-motion";
 import { weatherApiModule } from "../weatherApi";
 import { Sun, CloudRain, Wind, Droplets } from "lucide-react";

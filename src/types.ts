@@ -49,8 +49,8 @@ export type ExtractDependencies<T extends Array<FXModuleDefinition<any, any>>> =
       T[number],
       { name: K }
     > extends FXModuleDefinition<any, infer P>
-      ? P
-      : never;
+    ? P
+    : never;
   };
 
 export type FXConfig<T extends FXModuleDefinition<any, any>[]> = {

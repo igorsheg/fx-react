@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { createFXConfig, createFXContext } from "react-fx";
+import { createFXConfig, createFXContext } from "fx-react";
 import {
   autoThemingModule,
   baseNotificationsModule,
@@ -43,7 +43,7 @@ const FXModules = [
   smartDashboardModule,
 ];
 
-const { FXProvider, useFX, useFXSelector } = createFXContext<typeof FXModules>();
+export const { FXProvider, useFX, useFXSelector } = createFXContext<typeof FXModules>();
 
 function App() {
   const fxConfig = createFXConfig(FXModules)

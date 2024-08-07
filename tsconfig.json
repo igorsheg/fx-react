@@ -1,57 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "declaration": true,
-    "declarationDir": "./dist/esm/types",
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "jsx": "react",
-    "importHelpers": true,
-    "outDir": "dist",
-    "rootDir": "src",
-    "noEmit": false,
     "strict": true,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
-    "exactOptionalPropertyTypes": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "isolatedModules": true,
-    "checkJs": true,
+    "target": "es2018",
     "esModuleInterop": true,
+    "module": "nodenext",
     "skipLibCheck": true,
-    "baseUrl": "./src",
+    "allowJs": true,
+    // "verbatimModuleSyntax": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
-      "*": [
-        "*"
+      "fx-react": [
+        "./src/index.js"
       ]
     }
   },
-  "include": [
-    "src",
-    "*.tsx",
-    "*.ts"
-  ],
   "exclude": [
-    "node_modules",
     "dist",
-    "tests",
-    "**/*.test.ts",
-    "**/*.test.tsx"
-  ],
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Strictest",
-  "_version": "2.0.0"
+    "examples"
+  ]
 }
