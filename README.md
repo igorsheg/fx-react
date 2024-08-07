@@ -92,7 +92,7 @@ export const apiModule = createFXModule({
 ```tsx
 // App.tsx
 import React from 'react';
-import { createFXConfig, createFXContext } from 'fx-reac';
+import { createFXConfig, createFXContext } from 'fx-react';
 import { configModule, loggerModule, apiModule } from './modules';
 
 const FXModules = [configModule, loggerModule, apiModule];
