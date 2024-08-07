@@ -1,6 +1,16 @@
 # React FX Library
 
+[![CI](https://img.shields.io/github/actions/workflow/status/igorsheg/fx-react/ci.yml?branch=master)](https://github.com/igorsheg/fx-react/actions?query=workflow%3ACI)
+[![npm](https://img.shields.io/npm/v/fx-react)](https://www.npmjs.com/package/fx-react)
+[![size](https://img.shields.io/bundlephobia/minzip/fx-react)](https://bundlephobia.com/result?p=fx-react)
+
 React FX is a flexible dependency injection and module management library for React applications. It provides a structured way to organize your application's dependencies, making it easier to manage complex state and side effects.
+
+## Motivation
+
+Just for fun.
+Inspired by https://uber-go.github.io/fx.
+
 
 ## Table of Contents
 
